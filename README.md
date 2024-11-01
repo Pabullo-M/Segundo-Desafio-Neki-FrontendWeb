@@ -34,4 +34,8 @@ Siga os passos abaixo para instalar e configurar o projeto localmente.
 
 ## Uso
 
-Realizar o login com o usuario ADM previamente cadastrado exemplo@neki.com.br e senha 123abc@.
+Realizar o cadastro do usuario no endpoint /usuario no postman com o JSON 
+{
+"email":"exemplo@neki.com.br",
+"senha":"123abc@"
+}
