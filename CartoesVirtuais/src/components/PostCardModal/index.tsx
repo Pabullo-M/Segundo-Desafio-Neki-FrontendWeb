@@ -35,7 +35,7 @@ export function PostCardModal({ token, setRenderScreen }: TokenProps) {
 
     const handlePostApi = async () => {
         try {
-            PerfilSchema.safeParse(perfilCadastro);
+            PerfilSchema.parse(perfilCadastro);
             const response = await postPerfilApi(perfilCadastro!, token)
 
             if (typeof response === "string") {

@@ -19,9 +19,12 @@ export const PerfilCard: React.FC<UserCardProps> = (perfilData) => {
         token
     } = perfilData;
 
-    const formatarData = (data) => {
-        const partes = data.split("-");
-        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    const formatarData = (data?: string) => {
+        if (data) {
+            const partes = data.split("-");
+            return `${partes[2]}/${partes[1]}/${partes[0]}`;
+        }
+        return ''
     };
 
     return (
