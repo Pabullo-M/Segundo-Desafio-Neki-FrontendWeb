@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { Modal } from "../Modal"
 import { z } from "zod"
+import { PerfilSchema } from "@/util/zodSchema"
 
 interface TokenProps {
     token: string;
@@ -30,33 +31,12 @@ export function PostCardModal({ token, setRenderScreen }: TokenProps) {
         isOpen: false,
         title: "",
         description: "",
-    });;
-
-    const allowedDomains = ['neki.com.br', 'neki-it.com.br'];
-
-
-    const isValidDomain = (email: string) => {
-        const domain = email.split('@')[1];
-        return allowedDomains.includes(domain);
-    };
-
-    const perfilSchema = z.object({
-        nomeCompleto: z.string().min(1, { message: "Nome Completo é obrigatório." }).default(""),
-        email: z.string()
-            .email({ message: "Email inválido." })
-            .transform((email) => email.toLowerCase())
-            .refine(isValidDomain, { message: "E-mail deve ser de um domínio permitido (neki.com.br ou neki-it.com.br)." })
-            .default(""),
-        foto: z.string().min(1, { message: "URL da Foto é obrigatória." }).default(""),
-        dataNascimento: z.string().min(1, { message: "Data de Nascimento é obrigatória." }).default("")
     });
-
 
     const handlePostApi = async () => {
         try {
-            perfilSchema.parse(perfilCadastro);
+            PerfilSchema.safeParse(perfilCadastro);
             const response = await postPerfilApi(perfilCadastro!, token)
-            console.log("tipo", typeof response, response);
 
             if (typeof response === "string") {
                 setIsModalOpen({
@@ -176,6 +156,7 @@ export function PostCardModal({ token, setRenderScreen }: TokenProps) {
                         <Input
                             id="dataNascimento"
                             className="col-span-3"
+                            type="date"
                             onChange={(e) =>
                                 setPerfilCadastro((prev) => ({
                                     ...prev,
@@ -184,7 +165,7 @@ export function PostCardModal({ token, setRenderScreen }: TokenProps) {
                             }
                             required
                         />
-                        
+
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="telefone" className="text-right">

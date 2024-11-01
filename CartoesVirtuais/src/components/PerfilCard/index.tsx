@@ -19,7 +19,10 @@ export const PerfilCard: React.FC<UserCardProps> = (perfilData) => {
         token
     } = perfilData;
 
-
+    const formatarData = (data) => {
+        const partes = data.split("-");
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    };
 
     return (
         <CardContainer>
@@ -27,7 +30,7 @@ export const PerfilCard: React.FC<UserCardProps> = (perfilData) => {
             <UserName>{nomeSocial || nomeCompleto}</UserName>
             <UserId>ID: {id}</UserId>
             <UserInfo>Email: {email}</UserInfo>
-            <UserInfo>Data de Nascimento: {dataNascimento}</UserInfo>
+            <UserInfo>Data de Nascimento: {formatarData(dataNascimento)}</UserInfo>
             <UserInfo>Telefone: {telefone}</UserInfo>
             <SocialLinks>
                 {redesSociais?.linkedin && <a href={redesSociais.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>}

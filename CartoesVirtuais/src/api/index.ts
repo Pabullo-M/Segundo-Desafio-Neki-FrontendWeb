@@ -44,7 +44,7 @@ export const getPerfisApi = async (token: string): Promise<UserCardProps[] | und
 };
 export const getPerfilApi = async (id: string): Promise<UserCardProps | undefined | string> => {
     try {
-        const response = await axiosInstance.get<UserCardProps>(`/perfil/${id}`, {
+        const response = await axiosInstance.get<UserCardProps>(`/perfil/publico/${id}`, {
         });
         return response.data;
     } catch (error) {

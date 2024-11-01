@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label"
 import { useState } from "react"
 import { Modal } from "../Modal"
 import { z } from 'zod';
+import { PerfilSchema } from "@/util/zodSchema"
 
 export function PutCardModal({ id, email, nomeCompleto, nomeSocial, dataNascimento, foto, telefone, redesSociais, setRenderScreen, token }: UserCardProps & { setRenderScreen: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [renderScreen, setLocalRenderScreen] = useState<boolean>(false);
@@ -34,34 +35,15 @@ export function PutCardModal({ id, email, nomeCompleto, nomeSocial, dataNascimen
         isOpen: false,
         title: "",
         description: "",
-    });;
-
-    const allowedDomains = ['neki.com.br', 'neki-it.com.br'];
-
-
-    const isValidDomain = (email: string) => {
-        const domain = email.split('@')[1]; 
-        return allowedDomains.includes(domain);
-    };
-
-    const perfilSchema = z.object({
-        nomeCompleto: z.string().min(1, { message: "Nome Completo é obrigatório." }),
-        email: z.string()
-        .email({ message: "Email inválido." })
-        .transform((email) => email.toLowerCase())
-        .refine(isValidDomain, { message: "E-mail deve ser de um domínio permitido (neki.com.br ou neki-it.com.br)." }),
-        foto: z.string().min(1, { message: "URL da Foto é obrigatória." }),
-        dataNascimento: z.string().min(1, { message: "Data de Nascimento é obrigatória." })
-       
     });
+
     const handlePutPerfil = async () => {
         try {
-            
-            perfilSchema.parse(perfilAlterado); 
-            
+            PerfilSchema.parse(perfilAlterado);
+
             const response = await PutPerfilApi(perfilAlterado, token!);
             console.log(typeof response);
-            
+
             if (typeof response === "string") {
                 setIsModalOpen({
                     isOpen: true,
@@ -70,13 +52,13 @@ export function PutCardModal({ id, email, nomeCompleto, nomeSocial, dataNascimen
                 });
                 return;
             }
-            
+
             setIsModalOpen({
                 isOpen: true,
                 title: "Sucesso!",
                 description: "Alteração realizada com sucesso!"
             });
-    
+
             setLocalRenderScreen(false);
             setRenderScreen((prev) => !prev);
         } catch (error) {
@@ -85,16 +67,16 @@ export function PutCardModal({ id, email, nomeCompleto, nomeSocial, dataNascimen
                 setIsModalOpen({
                     isOpen: true,
                     title: "Erro de Validação",
-                    description: formattedErrors 
+                    description: formattedErrors
                 });
             } else {
                 console.error("Erro ao alterar o perfil:", error);
             }
         }
     };
-    
+
     const handleCloseModal = () => setIsModalOpen((prev) => ({ ...prev, isOpen: false }));
-    
+
     return (
         <Dialog open={renderScreen}>
             <DialogTrigger asChild>
@@ -187,6 +169,7 @@ export function PutCardModal({ id, email, nomeCompleto, nomeSocial, dataNascimen
                             id="dataNascimento"
                             defaultValue={dataNascimento}
                             className="col-span-3"
+                            type="date"
                             onChange={(e) =>
                                 setperfilAlterado((prev) => ({
                                     ...prev,

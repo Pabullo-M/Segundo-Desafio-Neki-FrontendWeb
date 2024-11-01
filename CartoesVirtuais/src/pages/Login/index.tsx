@@ -66,7 +66,7 @@ export const Login: React.FC = () => {
         <Button type="submit">Entrar</Button>
       </StyledForm>
       <StyledDiv>
-        <a href="perfil">
+        <a href="perfil/1">
           <p>Acesso sem Login</p>
         </a>
       </StyledDiv>
