@@ -34,7 +34,7 @@ Siga os passos abaixo para instalar e configurar o projeto localmente.
 
 ## Uso
 
-Realizar o cadastro do usuario no endpoint /usuario no postman com o JSON 
+Realizar o cadastro do usuario no endpoint /usuario no postman ou no swagger com o JSON 
 {
 "email":"exemplo@neki.com.br",
 "senha":"123abc@"
